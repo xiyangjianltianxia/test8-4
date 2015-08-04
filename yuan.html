@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+	*{ margin:0; padding:0;}
+	#box{ width:300px; height:300px; margin:100px; border:1px solid #000; border-radius:50%; position:relative;}
+	span{ width:40px; height:40px; background:red; border-radius:50%; position:absolute; left:50%; margin-left:-20px; top:0; margin-top:-20px;}
+</style>
+<script>
+	window.onload = function(){
+		var oBox = document.getElementById('box');
+		var R = oBox.offsetWidth/2;
+		var N = 15;
+		var bOk = true;
+		for(var i=0; i<N; i++){
+			var oS = document.createElement('span');
+			oS.a = 0;
+			oBox.appendChild(oS);
+		}
+		var aS = oBox.children;
+		oBox.onclick = function(){
+			if(bOk){
+				for(var i=0; i<aS.length; i++){
+					startMove(aS[i],360/N*i);
+				}
+			}else{
+				for(var i=0; i<aS.length; i++){
+					startMove(aS[i],0);
+				}	
+			}	
+			bOk = !bOk;
+		};
+		function startMove(obj,iTarget){
+			var start = obj.a;
+			var dis = iTarget-start;
+			var count = Math.floor(600/30);
+			var n = 0;
+			clearInterval(obj.timer);
+			obj.timer = setInterval(function(){
+				n++;
+				var cur = start+dis*n/count;
+				obj.style.left = R+Math.sin(cur*Math.PI/180)*R+'px';
+				obj.style.top = R-Math.cos(cur*Math.PI/180)*R+'px';
+				obj.a=cur;
+				if(n==count){
+					clearInterval(obj.timer);
+				}	
+			},30);
+		}
+		
+	};
+</script>
+</head>
+
+<body>
+	<div id="box">
+    </div>
+</body>
+</html>
